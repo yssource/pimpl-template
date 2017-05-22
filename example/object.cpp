@@ -11,16 +11,21 @@ ObjectPrivate::~ObjectPrivate()
     printf("ObjectPrivate::~ObjectPrivate()\n");
 }
 
-Object::Object()
+Object::Object() : Pimpl()
 {
     strcpy(d_ptr->id, "");
     printf("Object::Object()\n");
 }
 
-Object::Object(const char *id)
+Object::Object(const char *id) : Pimpl()
 {
     strcpy(d_ptr->id, id);
     printf("Object::Object(id)\n");
+}
+
+Object::Object(const Object &other) : Pimpl(other)
+{
+    printf("Object::Object(other)\n");
 }
 
 Object::~Object()

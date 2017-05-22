@@ -8,11 +8,12 @@
 
 class ObjectPrivate;
 
-class Object : private Pimpl<Object, ObjectPrivate>
+class Object : public Pimpl<Object, ObjectPrivate>
 {
 public:
     Object();
     Object(const char *id);
+    Object(const Object &other);
     ~Object();
 
     const char *id() const;
