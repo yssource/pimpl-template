@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Local solutions
+*.user
+
+# Folders
+build/
