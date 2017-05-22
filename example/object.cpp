@@ -14,7 +14,7 @@ ObjectPrivate::~ObjectPrivate()
 Object::Object()
 {
     strcpy(d_ptr->id, "");
-    printf("Object::Object(id)\n");
+    printf("Object::Object()\n");
 }
 
 Object::Object(const char *id)
