@@ -91,19 +91,19 @@ void Pimpl<Class, ClassPrivate>::swap(Pimpl &other)
 template<class Class, class ClassPrivate>
 ClassPrivate *Pimpl<Class, ClassPrivate>::_make() const
 {
-    return ((Class const*)this)->make();
+    return reinterpret_cast<Class const *>(this)->make();
 }
 
 template<class Class, class ClassPrivate>
 ClassPrivate *Pimpl<Class, ClassPrivate>::_clone(ClassPrivate *p) const
 {
-    return ((Class const*)this)->clone(p);
+    return reinterpret_cast<Class const *>(this)->clone(p);
 }
 
 template<class Class, class ClassPrivate>
 void Pimpl<Class, ClassPrivate>::_unmake(ClassPrivate *p) const
 {
-    ((Class const*)this)->unmake(p);
+    reinterpret_cast<Class const *>(this)->unmake(p);
 }
 
 #endif // PIMPL_H
