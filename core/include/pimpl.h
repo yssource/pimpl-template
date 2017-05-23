@@ -35,6 +35,10 @@ private:
     void _unmake(ClassPrivate *p) const; // Prevents MSVC warning C4150
 
 protected:
+    // Should be used to ensure const-correctness while accessing d_ptr in methods of Class
+    inline ClassPrivate *d_func();
+    inline const ClassPrivate *d_func() const;
+
     ClassPrivate *d_ptr;
 };
 
@@ -101,6 +105,18 @@ template<class Class, class ClassPrivate>
 void Pimpl<Class, ClassPrivate>::_unmake(ClassPrivate *p) const
 {
     reinterpret_cast<Class const *>(this)->unmake(p);
+}
+
+template<class Class, class ClassPrivate>
+ClassPrivate *Pimpl<Class, ClassPrivate>::d_func()
+{
+    return reinterpret_cast<ClassPrivate *>(d_ptr);
+}
+
+template<class Class, class ClassPrivate>
+const ClassPrivate *Pimpl<Class, ClassPrivate>::d_func() const
+{
+    return reinterpret_cast<const ClassPrivate *>(d_ptr);
 }
 
 #endif // PIMPL_H
