@@ -1,19 +1,29 @@
-#include <cstdio>
+#include <iostream>
 
 #include <global.h>
 
-#include "object.h"
+#include "point2d.h"
+
+using std::cout;
+using std::endl;
 
 int main(int argc, char *argv[])
 {
     UNUSED(argc)
     UNUSED(argv)
 
-    Object foo("foo");
-    printf("foo.id(): \"%s\"\n", foo.id());
+    Point2D a;
+    a.set(1, 1);
 
-    Object bar = foo;
-    printf("bar.id(): \"%s\"\n", bar.id());
+    Point2D b(a);
+    b.add(2, 2);
+
+    Point2D c = b;
+    c.add(3, 3);
+
+    cout << a << endl;
+    cout << b << endl;
+    cout << c << endl;
 
     return 0;
 }
