@@ -1,13 +1,23 @@
 #ifndef PIMPL_H
 #define PIMPL_H
 
+#include <algorithm>
+
 template <class Class, class ClassPrivate>
 class Pimpl
 {
 public:
     explicit Pimpl();
     Pimpl(const Pimpl &other);
-    Pimpl &operator=(const Pimpl &other);
+    Pimpl &operator=(Pimpl other);
+
+    // Used to create an exception safe assignment operator
+    // (see https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom)
+    friend void swap(Pimpl &first, Pimpl &second)
+    {
+        using std::swap;
+        swap(first.d_ptr, second.d_ptr);
+    }
 
 protected:
     // Disable destruction through base class pointer
@@ -20,10 +30,6 @@ protected:
     static void unmake(ClassPrivate *p);
 
 private:
-    // Used to create an exception safe assignment operator
-    // (see https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Copy-and-swap)
-    void swap(Pimpl &other);
-
     ClassPrivate *_make() const;
     ClassPrivate *_clone(ClassPrivate *p) const;
     void _unmake(ClassPrivate *p) const; // Prevents MSVC warning C4150
@@ -47,10 +53,9 @@ Pimpl<Class, ClassPrivate>::Pimpl(const Pimpl &other)
 }
 
 template<class Class, class ClassPrivate>
-Pimpl<Class, ClassPrivate> &Pimpl<Class, ClassPrivate>::operator=(const Pimpl &other)
+Pimpl<Class, ClassPrivate> &Pimpl<Class, ClassPrivate>::operator=(Pimpl other)
 {
-    Pimpl copy(other);
-    swap(copy);
+    swap(*this, other);
 
     return *this;
 }
@@ -78,14 +83,6 @@ template<class Class, class ClassPrivate>
 void Pimpl<Class, ClassPrivate>::unmake(ClassPrivate *p)
 {
     delete p;
-}
-
-template<class Class, class ClassPrivate>
-void Pimpl<Class, ClassPrivate>::swap(Pimpl &other)
-{
-    ClassPrivate *tmp = d_ptr;
-    d_ptr = other.d_ptr;
-    other.d_ptr = tmp;
 }
 
 template<class Class, class ClassPrivate>
