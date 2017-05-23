@@ -11,15 +11,24 @@ ObjectPrivate::~ObjectPrivate()
     printf("ObjectPrivate::~ObjectPrivate()\n");
 }
 
+void ObjectPrivate::setId(const char *id)
+{
+    if (id == NULL) {
+        return;
+    }
+
+    strcpy(this->id, id);
+}
+
 Object::Object() : Pimpl()
 {
-    strcpy(d_ptr->id, "");
+    d_ptr->setId("");
     printf("Object::Object()\n");
 }
 
 Object::Object(const char *id) : Pimpl()
 {
-    strcpy(d_ptr->id, id);
+    d_ptr->setId(id);
     printf("Object::Object(id)\n");
 }
 

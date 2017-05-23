@@ -7,6 +7,8 @@ public:
     ObjectPrivate();
     ~ObjectPrivate();
 
+    void setId(const char *id);
+
     char id[32];
 };
 
